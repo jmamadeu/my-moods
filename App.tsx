@@ -1,11 +1,14 @@
+import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { Text } from 'react-native';
+import { BottomTabsRoutes } from './src/routes/bottom-tabs';
 
 export default function App() {
   return (
     <>
-      <Text>Hello World</Text>
-      <StatusBar style="auto" />
+      <NavigationContainer>
+        <BottomTabsRoutes />
+        <StatusBar style="auto" />
+      </NavigationContainer>
     </>
   );
 }
