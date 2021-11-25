@@ -1,6 +1,7 @@
 const COLORS = {
   purple: '#454c73',
-  white: '#fff'
+  white: '#fff',
+  lavender: '#87677b'
 };
 
 export const theme = {
