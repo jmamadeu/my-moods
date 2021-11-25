@@ -14,7 +14,7 @@ const BottomTabs = createBottomTabNavigator<BottomRoutes>();
 export function BottomTabsRoutes() {
   return (
     <BottomTabs.Navigator>
-      <BottomTabs.Screen name="Home" component={Home} />
+      <BottomTabs.Screen name="Home" options={{ headerTitleAlign: 'center' }} component={Home} />
       <BottomTabs.Screen name="History" component={History} />
       <BottomTabs.Screen name="Analytics" component={Analytics} />
     </BottomTabs.Navigator>

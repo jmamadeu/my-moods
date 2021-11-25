@@ -1,4 +1,5 @@
-import React, { createContext, useCallback, useContext, useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { MoodOptionTimestampType, MoodOptionType } from '../types/moods';
 
 type MoodContextType = {
@@ -8,11 +9,53 @@ type MoodContextType = {
 
 const MoodContext = createContext<MoodContextType>({} as MoodContextType);
 
+type MoodStorageType = MoodOptionTimestampType[];
+
+const KEY = '@my-moods';
+
+const setMoodsToStorage = async (moods: MoodStorageType) => {
+  try {
+    await AsyncStorage.setItem(KEY, JSON.stringify(moods));
+  } catch (e: any) {
+    console.log(e.message);
+  }
+};
+
+const getMoodsFromStorage = async () => {
+  try {
+    const results = await AsyncStorage.getItem(KEY);
+    if (results) {
+      const moods = JSON.parse(results) as MoodStorageType;
+
+      return moods;
+    }
+  } catch (e: any) {
+    console.log(e.message);
+  }
+
+  return null;
+};
+
 export const MoodProvider: React.FC = ({ children }) => {
   const [moods, setMoods] = useState<MoodOptionTimestampType[]>([]);
 
   const handleSelectMood = useCallback((selectedMood: MoodOptionType) => {
-    setMoods((currentList) => [...currentList, { timestamp: Date.now(), ...selectedMood }]);
+    setMoods((currentList) => {
+      const newMoods = [...currentList, { timestamp: Date.now(), ...selectedMood }];
+      setMoodsToStorage(newMoods);
+      return newMoods;
+    });
+  }, []);
+
+  useEffect(() => {
+    const fetchInitialMoods = async () => {
+      const data = await getMoodsFromStorage();
+      if (!data) return;
+
+      setMoods(data);
+    };
+
+    fetchInitialMoods();
   }, []);
 
   return (
