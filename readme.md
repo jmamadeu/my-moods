@@ -4,7 +4,7 @@ React Native app to track your moods and show yours moods history
 
 <hr>
 
-![Preview Code](https://media.giphy.com/media/Vhw2lTXYI6FhGrbE2G/giphy.gif)
+![Preview Code](https://media.giphy.com/media/PVr98dIRf729MpU5CM/giphy.gif)
 
 ### Core Techs
 - [React Native and Expo](https://expo.dev/)
