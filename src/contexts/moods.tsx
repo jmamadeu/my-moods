@@ -5,6 +5,7 @@ import { MoodOptionTimestampType, MoodOptionType } from '../types/moods';
 type MoodContextType = {
   moods: MoodOptionTimestampType[];
   handleSelectMood: (mood: MoodOptionType) => void;
+  handleDeleteMood: (mood: MoodOptionTimestampType) => void;
 };
 
 const MoodContext = createContext<MoodContextType>({} as MoodContextType);
@@ -47,6 +48,14 @@ export const MoodProvider: React.FC = ({ children }) => {
     });
   }, []);
 
+  const handleDeleteMood = useCallback((mood: MoodOptionTimestampType) => {
+    setMoods((current) => {
+      const moodsFiltered = current.filter((m) => mood.timestamp !== m.timestamp);
+
+      return moodsFiltered;
+    });
+  }, []);
+
   useEffect(() => {
     const fetchInitialMoods = async () => {
       const data = await getMoodsFromStorage();
@@ -59,7 +68,9 @@ export const MoodProvider: React.FC = ({ children }) => {
   }, []);
 
   return (
-    <MoodContext.Provider value={{ moods, handleSelectMood }}>{children}</MoodContext.Provider>
+    <MoodContext.Provider value={{ moods, handleSelectMood, handleDeleteMood }}>
+      {children}
+    </MoodContext.Provider>
   );
 };
 

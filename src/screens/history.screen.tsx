@@ -1,14 +1,24 @@
-import { View } from 'react-native';
+import { Platform, UIManager } from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import { MoodItemRow } from '../components/mood-item-row';
 import { useMoodsContext } from '../contexts/moods';
+
+if (Platform.OS === 'android') {
+  if (UIManager.setLayoutAnimationEnabledExperimental) {
+    UIManager.setLayoutAnimationEnabledExperimental(true);
+  }
+}
 
 export function History() {
   const { moods: moodList } = useMoodsContext();
   return (
-    <View>
-      {moodList.map((mood, index) => (
-        <MoodItemRow key={index} item={mood} />
-      ))}
-    </View>
+    <ScrollView>
+      {moodList
+        .slice()
+        .reverse()
+        .map((mood, index) => (
+          <MoodItemRow key={index} item={mood} />
+        ))}
+    </ScrollView>
   );
 }

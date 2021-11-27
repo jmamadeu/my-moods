@@ -1,7 +1,8 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Analytics } from '../screens/analytics.screen';
 import { History } from '../screens/history.screen';
 import { Home } from '../screens/home.screen';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { icons } from '../components/icons';
+import { theme } from '../styles/theme';
 
 type BottomRoutes = {
   Home: undefined;
@@ -13,10 +14,21 @@ const BottomTabs = createBottomTabNavigator<BottomRoutes>();
 
 export function BottomTabsRoutes() {
   return (
-    <BottomTabs.Navigator>
-      <BottomTabs.Screen name="Home" options={{ headerTitleAlign: 'center' }} component={Home} />
-      <BottomTabs.Screen name="History" component={History} />
-      <BottomTabs.Screen name="Analytics" component={Analytics} />
+    <BottomTabs.Navigator
+      screenOptions={({ route }) => ({
+        tabBarActiveTintColor: theme.colors.blue,
+        tabBarInactiveTintColor: theme.colors.gray,
+        tabBarShowLabel: false,
+        headerTitleAlign: 'center',
+        tabBarIcon: ({ size, color }) => {
+          const RouteIcon = icons[route.name.toLocaleLowerCase()];
+
+          return <RouteIcon color={color} size={size} />;
+        }
+      })}
+    >
+      <BottomTabs.Screen name="Home" options={{ title: "Today's mood" }} component={Home} />
+      <BottomTabs.Screen name="History" component={History} options={{ title: 'Past moods' }} />
     </BottomTabs.Navigator>
   );
 }

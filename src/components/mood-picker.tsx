@@ -32,7 +32,7 @@ export const MoodPicker: React.FC<MoodPickerProps> = ({ onMoodChosen }) => {
     return (
       <View style={styles.container}>
         <Image style={styles.image} source={require('../../assets/butterflies.png')} />
-        <Pressable style={styles.button} onPress={() => handleSelect()}>
+        <Pressable style={[styles.button]} onPress={() => handleSelect()}>
           <Text style={styles.buttonText}>Choose another</Text>
         </Pressable>
       </View>
@@ -40,7 +40,7 @@ export const MoodPicker: React.FC<MoodPickerProps> = ({ onMoodChosen }) => {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container]}>
       <Text style={styles.heading}>How are you right now?</Text>
       <View style={styles.moodList}>
         {moodOptions.map((option, index) => (
@@ -61,9 +61,11 @@ export const MoodPicker: React.FC<MoodPickerProps> = ({ onMoodChosen }) => {
           </View>
         ))}
       </View>
-      <Pressable style={styles.button} onPress={() => handleSelect()}>
-        <Text style={styles.buttonText}>Choose</Text>
-      </Pressable>
+      {selectedMood ? (
+        <Pressable style={styles.button} onPress={() => handleSelect()}>
+          <Text style={styles.buttonText}>Choose</Text>
+        </Pressable>
+      ) : null}
     </View>
   );
 };
@@ -104,6 +106,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.2)'
   },
   heading: {
+    fontFamily: 'Kalam_700Bold',
     fontSize: 20,
     fontWeight: 'bold',
     letterSpacing: 1,
@@ -122,7 +125,8 @@ const styles = StyleSheet.create({
   buttonText: {
     color: theme.colors.white,
     textAlign: 'center',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontFamily: 'Kalam_400Regular'
   },
   image: {
     alignSelf: 'center'
