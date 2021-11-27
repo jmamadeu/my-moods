@@ -2,8 +2,6 @@ import { LayoutAnimation, Pressable, StyleSheet, Text, View } from 'react-native
 import React, { useCallback } from 'react';
 
 import { MoodOptionTimestampType } from '../types/moods';
-import { PanGestureHandler } from 'react-native-gesture-handler';
-import Reanimated from 'react-native-reanimated';
 import format from 'date-fns/format';
 import { theme } from '../styles/theme';
 import { useMoodsContext } from '../contexts/moods';
@@ -11,8 +9,6 @@ import { useMoodsContext } from '../contexts/moods';
 type MoodItemRowProps = {
   item: MoodOptionTimestampType;
 };
-
-const MAX_SWIPE = 150;
 
 export const MoodItemRow: React.FC<MoodItemRowProps> = ({ item }) => {
   const { handleDeleteMood } = useMoodsContext();
@@ -24,26 +20,18 @@ export const MoodItemRow: React.FC<MoodItemRowProps> = ({ item }) => {
   }, [item, handleDeleteMood]);
 
   return (
-    <PanGestureHandler
-      activeOffsetX={0}
-      activeOffsetY={100}
-      onGestureEvent={(event) => {
-        console.log(event.nativeEvent.translationX);
-      }}
-    >
-      <Reanimated.View style={[styles.moodItem]}>
-        <View style={styles.iconAndDescription}>
-          <Text style={styles.moodValue}>{item.emoji}</Text>
-          <Text style={styles.moodDescription}>{item.description}</Text>
-        </View>
-        <Text style={styles.moodDate}>
-          {format(new Date(item.timestamp), "dd MMM, yyyy 'at' h:mmaaa")}
-        </Text>
-        <Pressable onPress={() => handlePressDelete()}>
-          <Text style={styles.deleteText}>Delete</Text>
-        </Pressable>
-      </Reanimated.View>
-    </PanGestureHandler>
+    <View style={[styles.moodItem]}>
+      <View style={styles.iconAndDescription}>
+        <Text style={styles.moodValue}>{item.emoji}</Text>
+        <Text style={styles.moodDescription}>{item.description}</Text>
+      </View>
+      <Text style={styles.moodDate}>
+        {format(new Date(item.timestamp), "dd MMM, yyyy 'at' h:mmaaa")}
+      </Text>
+      <Pressable onPress={() => handlePressDelete()}>
+        <Text style={styles.deleteText}>Delete</Text>
+      </Pressable>
+    </View>
   );
 };
 
